@@ -1,0 +1,10 @@
+<h1> Welcome to Wikinonimous </h1>
+
+
+<% @articles.each do |article| %>
+  <p><%= article.name %></p>
+  <p><%= article.description %></p>
+  <p> <%= link_to "Add an article", new_article_path %> </p>
+  <p> <%= link_to "Edit an article", edit_article_path(article) %> </p>
+  <hr>
+<% end %>

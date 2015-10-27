@@ -1,0 +1,12 @@
+<H1>Here is the specific task </h1>
+
+<h2>Nom de la tache : <%= @task.name %></h2>
+<p>Description :  <%= @task.description %></p>
+<p>Priorité :  <%= "*" * @task.priority %></p>
+<p>Description détaillée : <%= @task.details %></p>
+<p>Date of creation : <%= @task.created_at%></p>
+<%= link_to "Back", tasks_path %>
+
+
+
+

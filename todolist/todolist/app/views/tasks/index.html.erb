@@ -1,0 +1,16 @@
+<h1> Welcome to the TodoList</h1>
+<h1>List of tasks</h1>
+<% @tasks.each do |task| %>
+<h2>Nom de la tache : <%= task.name %></h2>
+<p>Description :  <%= task.description %></p>
+<p>Priorité :  <%= "*" * task.priority %></p>
+<%= link_to task.name, task_path(task) %>
+<%= link_to "Edit", edit_task_path(task) %>
+<%= link_to "Add a task", new_task_path %>
+<%= link_to "Delete", task_path(task), method: :delete %>
+
+<hr>
+<% end %>
+
+
+

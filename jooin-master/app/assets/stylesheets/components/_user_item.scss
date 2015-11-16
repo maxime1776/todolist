@@ -1,0 +1,86 @@
+.user-item-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 15px;
+
+  &.has-active-item {
+    .user-item           { opacity: .5 }
+    .user-item.is-active { opacity: 1 }
+  }
+}
+
+.user-item-container {
+  padding:         10px;
+  justify-content: center;
+  display:         flex;
+  flex:            0 0 33%;
+}
+
+.user-item {
+  transition: opacity .2s ease;
+  &.is-active {
+    animation: enforcement .3s ease forwards;
+    .user-item-avatar { border: 10px solid }
+  }
+
+  &.has-message {
+    .user-item-avatar { border: 40px solid }
+    .fa { display: flex }
+  }
+}
+
+.user-item-avatar {
+  height:              80px;
+  width:               80px;
+  margin:              auto;
+  box-shadow:          0 2px 2px 0 rgba(0,0,0,0.12);
+  background-size:     cover;
+  background-position: center center;
+  border-radius:       50%;
+  border:              0px solid;
+  transition:          border .2s ease;
+
+  &-container { position: relative }
+
+  .fa {
+    display: none;
+
+    position: absolute;
+    top: 3px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+  }
+
+  &.emerland    { border-color: #2ecc71 !important }
+  &.amethyst    { border-color: #9b59b6 !important }
+  &.pete-river  { border-color: #3498db !important }
+  &.turquoise   { border-color: #1abc9c !important }
+  &.wet-alphast { border-color: #34495e !important }
+  &.sun-flower  { border-color: #f1c40f !important }
+  &.carott      { border-color: #e67e22 !important }
+  &.alzarin     { border-color: #e74c3c !important }
+  &.pumkin      { border-color: #d35400 !important }
+}
+
+.user-item-title {
+  text-align: center;
+  color: black;
+  font-weight: 300;
+  padding-top: 7px;
+  font-size: 12px;
+}
+
+@keyframes enforcement {
+  0% { transform: scale(1) }
+  50% {
+    transform: scale(.9);
+  }
+  100% { transform: scale(1) }
+}

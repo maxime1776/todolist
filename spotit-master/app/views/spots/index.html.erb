@@ -1,0 +1,126 @@
+<div class="sidebar sidebar-padded">
+  <!-- form to add specific filters and refresh this page -->
+  <div class="row">
+    <div class="col-xs-12">
+      <%= form_tag(spots_path, method: 'get') do %>
+        <div class="row">
+          <div class="col-sm-7">
+            <div class="form-group">
+              <%= label_tag :price, "Max price:" %>
+              <%= text_field_tag :price, nil, class: 'slider-price span2', data: { :"slider-id" => 'slider-price', :"slider-min" => @min_price, :"slider-max" => @max_price, :"slider-step" => 10, :"slider-value" => @max_price } %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :area, "Min area:" %>
+              <%= text_field_tag :area, nil, class: 'slider-area span2', data: { :"slider-id" => 'slider-area', :"slider-min" => @min_area, :"slider-max" => @max_area, :"slider-step" => 5, :"slider-value" => @min_area, :"slider-selection" => "after"} %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :rating, "Min rating:" %>
+              <%= text_field_tag :rating, nil, class: 'slider-rating span2', data: { :"slider-id" => 'slider-rating', :"slider-min" => 0, :"slider-max" => @max_rating, :"slider-step" => 1, :"slider-value" => 0, :"slider-selection" => "after" } %>
+            </div>
+            <div class="form-group form-inline">
+              <!-- <%= label_tag :city, "City:" %> -->
+              <%= hidden_field_tag :city, @params["city"], class: 'form-control' %>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <%= label_tag :exceptional_view, "Exceptional view:" %>
+              <%= check_box_tag :exceptional_view, checked: false, class: 'form-control' %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :modular_furniture, "Modular furniture:" %>
+              <%= check_box_tag :modular_furniture, checked: false, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="text-center">
+            <%= submit_tag "Find", class: 'btn btn-primary' %>
+          </div>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+
+
+  <!-- show all spots according to filters -->
+  <div class="row">
+    <div class="col-xs-12" style="padding-top: 30px;">
+      <p><%= @spots_total_number %> results in <%= (@params["city"].nil? || @params["city"] == "") ? "the whole world" : @params["city"].capitalize %> :</p>
+    </div>
+
+    <% @spots_selected.each do |spot| %>
+      <div class="col-md-6">
+        <div class="card">
+          <span class="card-bg" style="background-image: url(<%= image_path spot.photos.first.picture.url(:medium) %>)"></span>
+          <span class="card-gradient"></span>
+          <span class="card-rating">
+
+            <%= ("<i class='fa fa-star' style='color: #469AE0;'></i>" * spot.rating).html_safe %><%= ("<i class='fa fa-star' style='color: white;'></i>" * (5 - spot.rating)).html_safe %>
+          </span>
+          <span class="card-price">
+            <%= spot.price.to_i.to_s + ' €/day' %>
+          </span>
+          <%= link_to "", spot_path(spot),class: 'card-link' %>
+        </div>
+        <div class="card-detail">
+          <div class="title"><%= spot.title %></div>
+        </div>
+
+      </div>
+    <% end %>
+    <div class="row"></div>
+    <%= paginate @spots_selected %>
+  </div>
+</div>
+<!-- block for map -->
+
+<div id="map"></div>
+
+
+<%= content_for(:after_js) do %>
+  <!-- script for sliders -->
+  <%= javascript_tag do %>
+    var sliderPrice = $('.slider-price').slider();
+    var sliderArea = $('.slider-area').slider();
+    var sliderRating = $('.slider-rating').slider();
+    <% if @params["price"].to_i > 0 %>
+      var valuePrice = <%= @params["price"].to_i %>;
+      sliderPrice.slider('setValue', valuePrice);
+    <% end %>
+    <% if @params["area"].to_i > 0 %>
+      var valueArea = <%= @params["area"].to_i %>;
+      sliderArea.slider('setValue', valueArea);
+    <% end %>
+    <% if @params["rating"].to_i > 0 %>
+      var valueRating = <%= @params["rating"].to_i %>;
+      sliderRating.slider('setValue', valueRating);
+    <% end %>
+  <% end %>
+  <!-- script for map -->
+  <%= javascript_tag do %>
+    var myStyle = [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}];
+
+    $(document).on('ready', function() {
+      var handler = Gmaps.build('Google');
+      handler.buildMap({ internal: { id: 'map' }, provider: { styles: myStyle } }, function(){
+        markers = handler.addMarkers(<%= raw @markers.to_json %>);
+        console.log(markers);
+        handler.bounds.extendWith(markers);
+        handler.fitMapToBounds();
+      });
+
+      <!-- infowindow on mouseover -->
+      google.maps.event.addListener(marker, 'mouseover', function() {
+          infowindow.open(map, this);
+      });
+
+      // assuming you also want to hide the infowindow when user mouses-out
+      google.maps.event.addListener(marker, 'mouseout', function() {
+          infowindow.close();
+      });
+    });
+  <% end %>
+<% end %>
+
+
+

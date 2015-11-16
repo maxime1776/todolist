@@ -1,0 +1,124 @@
+<!-- <ul class="nav nav-pills nav-justified">
+  <li role="presentation" class="active"><%=link_to "Profil", edit_user_registration_path(@user) %>
+</li>
+  <li role="presentation"><%=link_to "Review", "#"  %></li>
+  <li role="presentation"><%=link_to "Messages", "#"  %></li>
+</ul> -->
+
+
+
+
+<div class="background-grey">
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-1 col-md-2">
+      <div class="mg-picture">
+        <%= image_tag(@user.imageUrl, :style => 'height: 200px') %>
+      </div>
+    </div>
+    <div class="col-md-7 ">
+      <div class="mg-welcome-profile">
+        <div class="border-white">
+          <h1><strong><%= @user.first_name %> <%= @user.last_name %></strong></h1>
+          <p>Membre depuis <%= @user.created_at.strftime('%B %Y') %></p>
+          <% if @user == current_user %>
+          <%=link_to "Modifier le Profil", edit_user_registration_path(@user) %>
+          <% end %>
+        </div>
+        <div class="border-white">
+        <h2 class="">My spots</h2>
+          <div class="row">
+            <div class="col-xs-12" style="padding-top: 30px;">
+              <% if @user.spots.empty? %>
+                <p><%= "You have no spot yet" %></p>
+                <% else %>
+                <% @user.spots.each do |spot| %>
+                  <div class="col-md-6">
+                    <div class="card">
+                      <span class="card-bg" style="background-image: url(<%= image_path spot.photos.first.picture.url(:medium) %>)"></span>
+                      <span class="card-gradient"></span>
+                      <span class="card-price">
+                        <%= spot.price.to_i.to_s + ' €/day' %>
+                      </span>
+                      <span class="card-text">
+                        <h3><%= spot.title %></h3>
+                      </span>
+                      <%= link_to "", spot_path(spot),class: 'card-link' %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <% if @user == current_user %>
+        <div class="border-white">
+        <h2 class="">My Bookings</h2>
+          <div class="row">
+            <div class="col-xs-12" style="padding-top: 30px;">
+              <% if @user.spots.empty? %>
+                <p><%= "You have no spot yet" %></p>
+                <% else %>
+                <% @user.spots.each do |spot| %>
+                <div class="row">
+                  <h3><%= spot.title %></h3>
+                  <% if spot.bookings.empty? %>
+                    <p><%= "You have no booking for this spot yet" %></p>
+                  <% else %>
+                    <% spot.bookings.each do |booking|%>
+                      <div class="col-xs-12">
+                        <div class="review border-grey">
+                          <%= image_tag User.find(booking.user_id).imageUrl, height: '50', class: 'img-circle', style: '' %>
+                          <%= booking.start_time.strftime('%A, %b %d') %> to <%= booking.end_time.strftime('%A, %b %d') %>
+                          <p style='margin-left: 55px;'><strong><%= User.find(booking.user_id).first_name %></strong> is willing to book "<%= booking.spot.title %>"</p>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <% end %>
+        <% if @user == current_user %>
+        <div class="border-white">
+        <h2 class="">My Travels</h2>
+          <div class="row">
+            <div class="col-xs-12" style="padding-top: 30px;">
+              <% if @user.bookings.empty? %>
+                <p><%= "You have no journey planned yet" %></p>
+                <% else %>
+                  <% @user.bookings.each do |booking| %>
+                      <div class="col-md-6">
+                        <div class="card">
+                          <span class="card-bg" style="background-image: url(<%= image_path 'loft1.png' %>)"></span>
+                          <span class="card-gradient"></span>
+                          <span class="card-price">
+                            <%= booking.total_price.to_i.to_s + ' €/day' %>
+                          </span>
+                          <span class="card-text">
+                            <h3>
+                              <%= 'From ' + booking.start_time.strftime('%A, %b %d') %>
+                              <%= ' to ' + booking.end_time.strftime('%A, %b %d') %>
+                            </h3>
+                          </span>
+                          <%= link_to "", spot_path(booking.spot),class: 'card-link' %>
+                        </div>
+                      </div>
+                  <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+

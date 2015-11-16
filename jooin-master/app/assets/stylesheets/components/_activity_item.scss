@@ -1,0 +1,57 @@
+.activity-items {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 400px;
+  justify-content: center;
+  margin: auto;
+  padding-top: 10px;
+}
+
+.activity-item-container {
+  margin: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  flex: 0 0 100px;
+  justify-content: center;
+}
+
+.activity-item {
+  flex: 0 0 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 80px;
+  font-size: 11px;
+  svg {
+    opacity: 1;
+    width: 30px;
+
+    path, rectangle {
+      fill: white;
+    }
+  }
+}
+
+.activity-item-link {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.activity-item-title {
+  color: black;
+  margin-top: 5px;
+  text-align: center;
+  font-weight: lighter;
+  font-size: 15px;
+
+  a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 12px;
+  }
+}

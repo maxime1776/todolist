@@ -1,0 +1,39 @@
+
+<div class="background-grey">
+  <div class="container">
+    <div class="row">
+      <%= simple_nested_form_for @spot do  |f| %>
+        <div class="col-sm-5 col-sm-offset-1">
+          <div class="margin-form">
+            <%= f.input :title %>
+            <%= f.input :description %>
+            <%= f.input :address, placeholder: "" %>
+            <%= f.input :area, input_html: { value: @params.nil? ? @spot.area : @params["area"]  } %>
+            <%= f.input :style, collection: %w( chic rustique industriel cosy ) %>
+          </div>
+        </div>
+        <div class="col-sm-5 col-sm-offset-1">
+          <div class="margin-form">
+
+            <%= f.input :exposition %>
+            <%= f.input :exceptional_view %>
+            <%= f.input :modular_furniture %>
+            <%= f.input :price, label: 'Price per day' %>
+            <%= f.hidden_field :visible, value: 'true' %>
+            <%= f.hidden_field :user_id, value: current_user.id %>
+
+            <p>Pictures</p>
+            <div id="pics">
+              <%= f.fields_for :photos do |photos_form| %>
+                <%= photos_form.file_field :picture, class: 'inline' %><%= photos_form.link_to_remove ('<i class="fa fa-trash"></i>').html_safe, class: 'inline' %>
+              <% end %>
+              <p><%= f.link_to_add ('<i class="fa fa-plus"></i>').html_safe, :photos %></p>
+            </div>
+
+            <%= f.submit "Continuer", class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

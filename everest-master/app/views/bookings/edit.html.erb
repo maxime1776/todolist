@@ -1,0 +1,5 @@
+
+<%= simple_form_for [@gear, @booking] do |f| %>
+  <%= f.input :confirmed, collection: [true, false] %>
+  <%= f.submit %>
+<% end %>

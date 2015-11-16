@@ -1,0 +1,63 @@
+<div class="title-new text-center">
+  <h2>Publish your add</h2>
+  <p>Spotit make you earn money renting your flat to photograph and video makers</p>
+</div>
+
+<div class="background-grey">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 col-md-5 col-md-offset-1">
+        <div class="margin-form">
+          <%= form_tag(new_spot_path, method: 'get') do %>
+            <div class="form-group form-inline">
+              <p><%= label_tag :city, "City:" %></p>
+              <%= text_field_tag :city, nil, placeholder: "ex: Paris, Lyon...", class: 'form-control' %>
+            </div>
+            <div class="form-group form-inline">
+              <p><%= label_tag :area, "Area:" %><p>
+              <%= text_field_tag :area, nil, placeholder: "(in sqm)", class: 'form-control' %>
+            </div>
+            <div class="text-right">
+              <%= submit_tag "Continue", class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-5 hidden-xs">
+        <div class="box">
+          <div class="row flex">
+            <div class="col-md-6 text-center">
+              <p>See the money you can make by renting your place to shooting profesionals:</p>
+            </div>
+            <div class="col-md-1">
+              <i class="fa fa-arrow-right"></i>
+            </div>
+            <div class="col-md-5 text-center">
+              <h1 id="estimated_earning">0€</h1>
+            <img src="https://a2.muscache.com/airbnb/static/landing_pages/mentorship/earn-money-f250d63dd518732d366297a3183a4b4d.png">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<% content_for(:after_js) do %>
+  <% javascript_tag do %>
+    <!-- update price on key press  -->
+    $('#area').on('keyup', function() {
+      var area = $(this).val();
+      var total_price = area * 4;
+      $("#estimated_earning").text(total_price + ' €');
+    })
+    <!-- update price on click -->
+    $('#area').on('click', function() {
+      var area = $(this).val();
+      var total_price = area * 4;
+      $("#estimated_earning").text(total_price + ' €');
+    })
+  <% end %>
+<% end %>
+

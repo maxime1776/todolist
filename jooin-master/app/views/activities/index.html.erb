@@ -1,0 +1,7 @@
+<div class="activity-items">
+  <% @activities.each_with_index do |activity, index| %>
+    <div class="activity-item-container">
+      <%= render 'activity_item', activity: activity %>
+    </div>
+  <% end %>
+</div>

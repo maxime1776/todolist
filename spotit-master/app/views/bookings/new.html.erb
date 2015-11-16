@@ -1,0 +1,99 @@
+
+<div class="title-new text-center">
+  <h2>Final step to book this great place</h2>
+  <p>Please confirm your booking</p>
+</div>
+
+<div class="background-grey">
+  <div class="container">
+    <div class="row">
+      <div class="title-new text-center">
+        <h2> <%= @spot.title %></h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="margin-form">
+          <div class="price-bordered text-center">
+            <p id="tt_days">1 day<p>
+            <h3 id="tt_price"><%= @spot.price.to_i %> €</h3>
+          </div>
+          <p class="card-margin  "> The dates you have chosen: </p>
+          <%= simple_form_for([ @spot, @booking ]) do |f| %>
+            <%= f.input :start_time, as: :string, input_html: {class: "datepicker", value: @params["start_time"]}%>
+            <%= f.input :end_time, as: :string, input_html: {class: "datepicker", value: @params["end_time"] } %>
+            <%= f.hidden_field :total_price, value: @params["total_price"] %>
+             <%= f.hidden_field :spot_id, value: @spot.id %>
+            <%= f.hidden_field :user_id, value: current_user.id %>
+            <div data-toggle="modal" data-target="#myModal">
+            <%= f.submit "Confirm your booking", class: "btn btn-primary"%>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for(:after_js) do %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+  $('.datepicker').datepicker({
+        startDate: 'd'
+    });
+  $('.datepicker').on('changeDate', function(ev){
+      $(this).datepicker('hide');
+  });
+  });
+</script>
+<% end %>
+
+
+<% content_for(:after_js) do %>
+  <% javascript_tag do %>
+
+    $('.simple_form').on('change', function() {
+
+   <!--  getting all the variables from the form -->
+      var start_date = new Date( $('#booking_start_time').val());
+      var end_date = new Date($('#booking_end_time').val());
+      var laps = (end_date - start_date) / (1000 * 60 * 60 * 24) + 1
+
+  <!--  calculating the total price for the booking-->
+      var total_price = Math.round(
+        <%= @spot.price %> * laps) ;
+
+  <!--  Setting the total price for the booking-->
+      $("#total_price").val(booking_total_price);
+      $("#tt_price").val('Total price : ' + total_price + ' €');
+
+      $("#tt_price").text(total_price + ' €');
+      if (laps > 1) {
+        $("#tt_days").text(laps + ' days');
+      } else {
+        $("#tt_days").text('1 day');
+      }
+    })
+  <% end %>
+<% end %>
+
+
+<!-- Modal -->
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="modal-title" id="myModalLabel">Thank you</h2>
+      </div>
+      <div class="modal-body">
+        Thank you very much, your booking has been taken into account. The spot owner will get back to you soon.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

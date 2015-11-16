@@ -1,0 +1,29 @@
+// Graphical variables
+@import "config/variables";
+@import "config/bootstrap_variables";
+
+// External libraries
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+// Your CSS
+@import "layout/index";
+@import "components/index";
+@import "pages/index";
+@import "vendor/index";
+
+// for sliders on index spot page
+@import "bootstrap-slider";
+
+// For the carroussel in the spots/show
+@import "slick.js/slick";
+@import "slick.js/slick-theme";
+
+// For the beautiful light box
+@import "lightbox/lightbox.scss";
+
+// For the beautiful datepicker qui bute
+@import "bootstrap-datepicker3";
+

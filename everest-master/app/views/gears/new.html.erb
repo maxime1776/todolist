@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-offset-3 col-sm-6">
+      <div class="card-white">
+        <h2>Rent your gear</h2>
+        <%= simple_form_for @gear do |f| %>
+          <%= f.input :title %>
+          <%= f.input :picture %>
+          <%= f.input :sport, collection: Gear::SPORTS %>
+          <%= f.input :brand %>
+          <%= f.input :description %>
+          <%= f.input :price %>
+          <%= f.input :address %>
+          <%= f.input :city %>
+          <%= f.input :zipcode %>
+          <%= f.submit "add a gear", class: "btn btn-primary"%>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,140 @@
+<div class="container">
+
+  <!-- Banner Gear picture -->
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="banner">
+        <div class="picture" style="background-image:url('<%= @gear.picture.url(:large) %>')"></div>
+        <h1><%= @gear.title %></h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gear information -->
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <div class="card-white">
+        <ul class="list">
+          <li><%= image_tag @owner.picture.url(:square), class: "avatar avatar-bordered" %></li>
+          <li><i class="fa fa-star yellow"></i><br /><%= rating_average(@gear) %></li>
+          <li><span>Sport</span><br /><%= @gear.sport %></li>
+          <li><span>Brand</span><br /><%= @gear.brand %></li>
+        </ul>
+        <p><strong>Description</strong> : <%= @gear.description %></p>
+        <p><strong>Address</strong> : <%= @gear.address %></p>
+        <p><strong>city</strong> : <%= @gear.city %></p>
+        <h2>Reviews</h2>
+        <ul class="list-unstyled review_listing">
+        <% @bookings.each do |booking| %>
+          <% booking.reviews.each do |review| %>
+            <li>
+            <% if review.customer_review %>
+              <%= image_tag review.booking.user.picture.url(:square), class: "avatar-small avatar-bordered" %>
+              <span>
+                <% review.rating.times do %>
+                  <i class="fa fa-star yellow"></i>
+                <% end %>
+                <br />
+            <% end %>
+            <%= review.description %>
+              </span>
+            </li>
+          <% end %>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Booking ou Admin action -->
+
+    <div class="col-xs-12 col-sm-6">
+    <% if current_user != @gear.user %>
+      <div class="card-white text-center">
+        <h2>Book this gear</h2>
+        <p><span class="price"><%= @gear.price %>€</span>/day</p>
+         <div class="date_picker">
+          <%= simple_form_for [@gear, @booking] do |f| %>
+            <%= f.input :start_date,as: :string, input_html: {class: "datepicker"}, placeholder: "06/11/15" %>
+            <%= f.input :end_date,as: :string, input_html: {class: "datepicker"}, placeholder: "16/11/15" %>
+            <%= f.button :submit, "Book this gear",class: "btn btn-everest" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="card-white">
+        <h2>Admin this gear</h2>
+        <ul>
+          <li>
+            <i class="fa fa-trash-o"></i>
+            <%= link_to "Delete Gear", gear_path(@gear), method: :delete %></li>
+          <li>
+            <i class="fa fa-pencil-square-o"></i>
+            <%= link_to "Edit Gear", edit_gear_path(@gear) %>
+          </li>
+        </ul>
+        <% unless @unconfirmed_bookings.empty? %>
+        <h2>Pending Booking</h2>
+        <ul>
+          <% @unconfirmed_bookings.each do |booking| %>
+            <li>
+                <%= booking.user.email %><br />
+                from <%= booking.start_date %> to <%= booking.end_date %>
+                <%= link_to "Confirm booking", booking_path(booking),
+                            method: :patch, class: "btn btn-everest" %>
+            </li>
+          <% end %>
+        </ul>
+        <% end %>
+      </div>
+    <% end %>
+    </div>
+
+    <div class="col-xs-12 col-sm-6">
+        <div class="card-white">
+          <h2 class="text-center">Give your review</h2>
+            <% @bookings.each do |booking|%>
+             <!--  verify if current_user has not commented yet -->
+              <% reviews_from_user = 0 %>
+              <% r = booking.reviews %>
+              <% r.each do |review|%>
+                <%if review.booking.user_id == current_user.id%>
+                <% reviews_from_user += 1 %>
+                <%end %>
+              <% end %>
+              <!-- check_if_reviewable check if user is a renter, if the booking end_date is past, if the booking was confirmed -->
+              <% if check_if_reviewable(booking) && reviews_from_user == 0%>
+              <!-- This puts the date of the booking to review -->
+                <div class="review_form">
+                  <p>Your booking from <%= booking.start_date.strftime("%d") + "/" +booking.start_date.strftime("%m") + "/" +booking.start_date.strftime("%Y") %>
+                    to
+                    <%= booking.end_date.strftime("%d") + "/" +booking.end_date.strftime("%m") + "/" +booking.end_date.strftime("%Y") %> :
+                  </p>
+                  <!-- This is the form to review the booking -->
+                  <% review = Review.new %>
+                  <%= simple_form_for [booking, review] do |f| %>
+                    <%= f.input :rating, collection: Review::RATING %>
+                    <%= f.input :description %>
+                    <%= f.submit "Send review", class: "btn btn-primary" %>
+                </div>
+                <% end %>
+              <% end %>
+            <%end%>
+          </p>
+        </div>
+    </div>
+  </div>
+
+
+  </div>
+</div>
+
+
+<%content_for(:after_js) do %>
+  <script type="text/javascript">
+     $(document).ready(function(){
+      $('.datepicker').datepicker();
+    });
+  </script>
+<% end -%>

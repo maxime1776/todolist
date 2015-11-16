@@ -1,0 +1,43 @@
+// Place all the styles related to the gears controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.banner{
+  margin-bottom: 30px;
+}
+
+.banner .picture{
+  height: 450px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+.banner h1 {
+  position: absolute;
+  z-index: 2;
+  top: 388px;
+  background: $first;
+  margin: 0px;
+  line-height: 62px;
+  padding: 0px 40px;
+  color: #FFF;
+}
+.btn-everest{
+  color: #FFF;
+  background-color: $third;
+  border-color: $third-dark;
+  padding: 0px 20px;
+  line-height: 40px;
+  &:hover {
+    color: #fff;
+    background-color: darken($third, 10%);
+    border-color: darken($third-dark, 10%);
+  }
+}
+
+.search{
+  padding: 0 20px 20px 20px;
+  .form-control {
+    height: 42px;
+  }
+}

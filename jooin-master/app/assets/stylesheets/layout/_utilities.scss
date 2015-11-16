@@ -1,0 +1,50 @@
+/* -------------------------------------
+ * Utilities classes
+ * These are examples of utilities classes
+ * Feel free to change them and create your own
+ * ------------------------------------- */
+
+// Paddings
+.padded {
+  padding-top: 5em;
+  padding-bottom: 5em;
+}
+
+// Backgrounds
+.bg-text {
+  background: #4a4a4a;
+}
+.bg-email {
+  background: #aeaeae;
+}
+.bg-twitter {
+  background: #00a3e1;
+}
+.bg-facebook {
+  background: #3b5998;
+}
+
+body {
+  padding-top: 50px;
+}
+
+.is-flex { display: flex }
+.has-column-mode { flex-flow: column }
+
+.emerland { background: #2ecc71 }
+.amethyst { background: #9b59b6 }
+.pete-river { background: #3498db }
+.turquoise { background: #1abc9c }
+.wet-alphast { background: #34495e }
+.sun-flower { background: #f1c40f }
+.carott { background: #e67e22 }
+.alzarin { background: #e74c3c }
+.pumkin { background: #d35400 }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}

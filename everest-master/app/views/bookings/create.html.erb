@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-offset-3 col-sm-6">
+      <div class="card-white text-center">
+        <h2> Your reservation</h2>
+        <p>
+          You reservation request for
+          <strong><%=@booking.gear.title%></strong>
+        </p>
+        <p>
+          from
+          <strong><%=@booking.start_date.strftime("%d/%m/%Y")%></strong>
+          to
+          <strong><%=@booking.end_date.strftime("%d/%m/%Y")%></strong>
+          was send to
+          <strong><%=@booking.gear.user.email%></strong>.
+        </p>
+        <p>
+          As soon as your reservation will be confirmed you will be noticed.
+          <br />
+        </p>
+        <p>
+        <strong>Thank you</strong>
+        </p>
+        <%= link_to "Book another gear", gears_path, class: "btn btn-everest spaced" %>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

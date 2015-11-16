@@ -1,0 +1,7 @@
+<%= simple_form_for([ @spot, @spot_review ]) do |f| %>
+  <%= f.input :rating, collection: 0..5 %>
+  <%= f.input :comment %>
+   <%= f.hidden_field :spot_id, value: @spot.id %>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <%= f.submit "Add", class: "btn btn-primary" %>
+<% end %>

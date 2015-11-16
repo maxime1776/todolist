@@ -1,0 +1,16 @@
+.background-home {
+  margin:0;
+  height: 100vh;
+  background: url(http://studiosdigard.e-monsite.com/medias/album/studio.jpg) no-repeat center fixed;
+  -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+  background-size: cover; /* version standardisée */
+  background-position: center center;
+  opacity: 0.75;
+  z-index: 2 ;
+}
+
+.background-grey {
+  left: 0px;
+  right: 0px;
+  background-color: #F5F5F5;
+}

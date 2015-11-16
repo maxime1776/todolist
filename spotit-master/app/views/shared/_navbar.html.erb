@@ -1,0 +1,36 @@
+<nav class="navbar-wagon">
+  <div class="container navbar-wagon-container">
+
+    <a href="/" class="flex">
+      <%= image_tag "logo_blue.png", class: 'navbar-wagon-logo' %>
+      <span class="logo-name">Spot it</span>
+    </a>
+
+      <div class="navbar-wagon-pusher"></div>
+
+      <% if user_signed_in? %>
+        <div class="navbar-wagon-item">
+          <div class="dropdown">
+            <%= image_tag current_user.imageUrl, class: "avatar avatar-bordered dropdown-toggle", id: "navbar-wagon-menu", "data-toggle" => "dropdown" %>
+            <ul class="dropdown-menu dropdown-menu-right navbar-wagon-dropdown-menu">
+              <li>
+                <%= link_to user_path(current_user) do %>
+                  <i class="fa fa-user"></i> <%= t ".profile", default: "Profile" %>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to destroy_user_session_path, method: :delete do %>
+                  <i class="fa fa-sign-out"></i>  <%= t ".sign_out", default: "Log out" %>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      <% else %>
+
+        <%= link_to t(".sign_in", default: "Login"), new_user_session_path, class: "navbar-wagon-item navbar-wagon-link" %>
+      <% end %>
+      <hr>
+      <%= link_to t(".top_call_to_action", default: "Add a New Spot"), add_path, class: "navbar-wagon-item navbar-wagon-button btn" %>
+    </div>
+</nav>

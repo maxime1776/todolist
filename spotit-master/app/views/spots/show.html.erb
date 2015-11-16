@@ -1,0 +1,188 @@
+<div class="banner">
+  <span class="banner-bg" style="background-image: url(<%= image_path @spot.photos.first.picture.url(:large) %>); backgroun-position: center center;"></span>
+  <span class="banner-gradient"></span>
+  <a href=<%= image_path @spot.photos.first.picture.url(:large) %> class='banner-link' data-lightbox="roadtrip"></a>
+
+  <% @spot.photos.each do |photo| %>
+    <% if photo.id != @spot.photos.first.id && photo.picture_file_name %>
+      <a href=<%= image_path photo.picture.url(:large) %> data-lightbox="roadtrip"></a>
+    <% end %>
+  <% end %>
+
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 col-md-offset-1">
+
+      <div class="row">
+        <div class="col-sm-2 col-xs-hidden">
+          <%= image_tag @owner.imageUrl, height: '70', class: 'img-circle', style: 'margin-top: 22px' %>
+        </div>
+        <div class="col-sm-10">
+          <!-- displaying the title -->
+          <h2><%= @spot.title %></h2>
+
+          <!-- displaying the address -->
+          <address style="margin-bottom: 10px;">
+            <%= @spot.address %>
+          </address>
+          <p><%= ("<i class='fa fa-star' style='color: #FFCE54;'></i>" * @spot.rating).html_safe %><%= ("<i class='fa fa-star' style='color: #eee;'></i>" * (5 - @spot.rating)).html_safe %></p>
+        </div>
+      </div>
+
+      <!-- displaying all the features of the spot -->
+      <div class="row text-center icons-row">
+        <div class="col-xs-6 col-sm-3 col-md-2">
+          <%= image_tag "style.png", height: '40' %>
+          <p><%= @spot.style %></p>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2">
+          <%= image_tag "squaremeter.png", height: '40' %>
+          <p><%= @spot.area %> m2</p>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2">
+          <%= image_tag "exposition.png", height: '40' %>
+          <p><%= @spot.exposition %></p>
+        </div>
+        <div class="col-xs-6 col-sm-3 col-md-2">
+          <%= image_tag "furniture.png", height: '40' %>
+          <p><%= @spot.modular_furniture ? "modular" : "not modular" %></p>
+        </div>
+        <% if @spot.exceptional_view %>
+          <div class="col-xs-6 col-sm-3 col-md-2">
+            <%= image_tag "view.png", height: '40' %>
+            <p> "view" </p>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- displaying the description -->
+      <div class="row" style="text-align: justify;">
+        <h3>Know more about this place</h3>
+        <p><%= @spot.description %></p>
+      </div>
+
+      <!-- commentaires -->
+      <div class="row">
+        <h3>All reviews</h3>
+        <% if @spot.spot_reviews.blank? %>
+          <p>No reviews yet.</p>
+        <% end %>
+        <% @spot.spot_reviews.each do |spot_review| %>
+          <div class="col-xs-12">
+            <div class="review">
+              <%= image_tag spot_review.user.imageUrl, height: '50', class: 'img-circle', style: '' %>
+              <%= ("<i class='fa fa-star' style='color: #FFCE54;'></i>" * spot_review.rating).html_safe %><%= ("<i class='fa fa-star' style='color: #eee;'></i>" * (5 - spot_review.rating)).html_safe %> - <%= spot_review.created_at.strftime('%m/%d/%y') %>
+              <p style='margin-left: 50px;'><%= spot_review.comment %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Add a review -->
+        <% if user_signed_in? %>
+          <% if current_user.booked_spot?(@spot) && !current_user.reviewed(@spot) %>
+            <div class="col-xs-12">
+              <button class="btn btn-primary" id="add-booking">Add a review</button>
+              <div>
+                <%= render 'spot_reviews/new' %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+
+
+    <!-- displaying the "ask for bookings - it does not create a booking yet but redirect to the New booking with the good params" -->
+    <div class="col-sm-4">
+      <div class="background-grey card-big">
+        <div class="row text-center">
+          <div class="price-content">
+            <%= form_tag( new_spot_booking_path(@spot), method: 'get') do %>
+              <div class="form-group form-inline">
+                <p><%= label_tag :start_time, "Start time" %></p>
+                <%= text_field_tag :start_time, Time.now.strftime("%m/%d/%Y"), type: "text", class: 'form-control datepicker' %>
+              </div>
+              <div class="form-group form-inline">
+                <p><%= label_tag :end_time, "End time" %><p>
+                <%= text_field_tag :end_time, Time.now.strftime("%m/%d/%Y"), type: "text", class: 'form-control datepicker' %>
+              </div>
+              <div class="form-group form-inline">
+                <%= hidden_field_tag :total_price, @spot.price.to_i, class: 'form-control' %>
+              </div>
+              <div class="price-bordered text-center">
+                <p id="tt_days">1 day<p>
+                <h3 id="tt_price"><%= @spot.price.to_i %> €</h3>
+              </div>
+              <div class="text-center">
+                <%= submit_tag "Book", class: 'btn btn-primary' %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="card-map">
+        <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?zoom=15&size=300x300&sensor=false&maptype=roadmap&markers=color:blue|#{@spot.address}" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row padded"></div>
+</div>
+
+
+<!-- displaying the javascript -->
+<% content_for(:after_js) do %>
+<!-- compulsory to use datepicker -->
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.datepicker').datepicker({
+        startDate: 'd'
+      });
+      $('.datepicker').on('changeDate', function(ev){
+          $(this).datepicker('hide');
+      });
+    });
+  </script>
+<% end %>
+<!-- used to set the price automatically -->
+<% content_for(:after_js) do %>
+  <% javascript_tag do %>
+
+    $('.form-group').on('change', function() {
+
+   <!--  getting all the variables from the form -->
+      var start_date = new Date( $('#start_time').val());
+      var end_date = new Date($('#end_time').val());
+      var laps = (end_date - start_date) / (1000 * 60 * 60 * 24) + 1
+
+  <!--  calculating the total price for the booking-->
+      var total_price = Math.round(
+        <%= @spot.price %> * laps) ;
+
+  <!--  Setting the total price for the booking-->
+      $("#total_price").val(total_price);
+
+  <!--  Displaying to the view the total price for the booking-->
+      $("#tt_price").text(total_price + ' €');
+      if (laps > 1) {
+        $("#tt_days").text(laps + ' days');
+      } else {
+        $("#tt_days").text('1 day');
+      }
+
+    })
+  <% end %>
+<% end %>
+
+
+
+
+
+
+
+

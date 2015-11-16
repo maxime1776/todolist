@@ -1,0 +1,11 @@
+<div class="nav-bar">
+  <div class='nav-bar-back'>
+    <%= link_to url_for(:back) do %>
+      <i class="fa fa-angle-left"></i>
+    <% end %>
+  </div>
+  <div class="nav-bar-logo">
+    <%= render 'shared/logo' %>
+  </div>
+  <%= link_to 'logout', destroy_user_session_path, method: 'delete' %>
+</div>

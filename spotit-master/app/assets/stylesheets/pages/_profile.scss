@@ -1,0 +1,17 @@
+.border-white {
+  padding: 20px;
+  background-color: white;
+  margin: 10px;
+  border-style: solid;
+  border-color: white;
+  border-radius: 10px;
+}
+
+.border-grey {
+  padding: 5px;
+  margin: 10px;
+  border-style: solid;
+  border-color: $blue;
+  border-radius: 10px;
+  border-width: 1px;
+}

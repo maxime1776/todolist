@@ -1,0 +1,10 @@
+<% form = form_for(current_user) do |f| %>
+  <%= f.text_field :phone, type: "number", pattern: "[0-9]*", placeholder: '0658995036', class: 'input-phone' %>
+  <div class='button-wrapper'>
+    <%= f.submit 'ENVOYER', class: 'button button-success' %>
+  </div>
+<% end %>
+
+<%= react_component 'PhoneForm', {
+  form: form
+} %>

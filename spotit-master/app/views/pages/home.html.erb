@@ -1,0 +1,47 @@
+<% content_for :nav, render('shared/navbar_home') %>
+
+
+<div class="background">
+  <div class="bg-gradient flex">
+    <div class="form-group">
+      <%= form_tag('/spots', method: 'get', :class => "form-inline") do %>
+         <div class="title-home"><span class="box-home"><%= select_tag :city, options_for_select(%w( PARIS LYON BORDEAUX )) %></span><span class="glyphicon glyphicon-chevron-down" aria-hidden="true" style="font-size: 35px;"></span> EST VOTRE STUDIO</div>
+         <span id="hiddenDiv" class="title-home" style="visibility:hidden; line-height:0;"></span>
+         <div class="text-center">
+          <%= submit_tag "Find your perfect place", class: 'btn btn-primary btn-home' %></div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% content_for(:after_js) do %>
+  <% javascript_tag do %>
+    <!-- JS to make the chevron open the select -->
+    $('.glyphicon').click(function() {
+        open($('#city'));
+    });
+
+    function open(elem) {
+      if (document.createEvent) {
+        var e = document.createEvent("MouseEvents");
+        e.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        elem[0].dispatchEvent(e);
+      } else if (element.fireEvent) {
+        elem[0].fireEvent("onmousedown");
+      }
+    }
+
+    <!-- JS to adapt select size to content to center the div-->
+    <!-- at the beginning -->
+    $('#hiddenDiv').html( $('#city').val() );
+    $('#city').width( $('#hiddenDiv').width() );
+
+    <!-- and on change -->
+    $('#city').change( function() {
+      $('#hiddenDiv').html( $('#city').val() );
+      $('#city').width( $('#hiddenDiv').width() );
+    });
+  <% end %>
+<% end %>
+
+

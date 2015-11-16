@@ -1,0 +1,32 @@
+<% color_show = color %>
+
+<div class="activity-detail is-flex has-column-mode">
+  <div class="activity-detail-header text-center <%= color_show %>">
+    <% svg = "<webicon icon=#{@activity.icon} ></webicon>" %>
+    <%= svg.html_safe %>
+    <div class="activity-detail-header-bg"></div>
+    <div class="app-container has-center-mode">
+      <h2><%= @activity.name %></h2>
+    </div>
+  </div>
+  <%= react_component 'UserItemWrapper', {
+    users: @friends,
+    color: color_show,
+    activity: @activity
+  } %>
+
+  <%= content_for(:after_js) do %>
+    <script>
+      var interval = setInterval(function(){ getSvg() }, 1000);
+      function getSvg (){
+        if ($('.webicon svg').length) {
+          clearInterval(interval);
+          $('webicon svg path').css('fill', 'white');
+          string ='data:image/svg+xml;utf8,' + $('.webicon svg')[0].outerHTML;
+          $('.activity-detail-header-bg').css('background-image', "url('" + string + "')");
+          $('.activity-detail-header-bg').addClass('is-active');
+        }
+      }
+    </script>
+  <% end %>
+</div>

@@ -1,0 +1,82 @@
+/* -------------------------------------
+ * SASS code SPECIFIC TO your home page
+ * (margin/padding adjustments, background image, etc..)
+ * ------------------------------------- */
+
+
+.background {
+  margin:0;
+  height: 100vh;
+  // background: image-url('spot-it-3.jpg') no-repeat center fixed;
+  background: url('http://studiosdigard.e-monsite.com/medias/album/studio.jpg') no-repeat center fixed;
+  -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+  background-size: cover; /* version standardisée */
+  z-index: 0 ;
+  margin-top: -70px;
+}
+.bg-gradient {
+  background-image: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 80%);
+  margin:0;
+  height: 100vh;
+  -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+  background-size: cover; /* version standardisée */
+  background-position: center center;
+
+}
+.title-home {
+  font-size: 50px;
+  font-family: $header-font;
+  font-weight: 700;
+  color: white;
+
+  select {
+    font-size: 50px;
+    background: transparent;
+    color: white;
+    border: 0;
+    border-radius: 0;
+    height: 70px;
+      -webkit-appearance: none;
+    &:focus {
+      outline:none;
+    }
+    &.expand {
+      direction: ltr;
+    }
+  }
+
+}
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.box-home {
+  // border: 2px solid white;
+  // border-radius: 3px;
+  padding: 10px;
+
+}
+
+.btn-home {
+  font-size: 20px;
+  padding: 20px;
+  border-radius: 42px;
+  margin-top: 50px;
+  border: none;
+  &:focus {
+    outline: 0 !important;;
+  }
+}
+.navbar-wagon a:hover {
+  text-decoration: none;
+}
+.logo-name {
+  font-family: 'Niconne', cursive;
+  font-size: 35px;
+  color: $blue;
+  margin-left: 10px;
+  &-home {
+    color: white;
+  }
+}

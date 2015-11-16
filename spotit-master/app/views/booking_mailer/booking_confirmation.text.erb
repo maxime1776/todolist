@@ -1,0 +1,7 @@
+BookingMailer#booking_confirmation
+
+Hello <%= @spot.user.email %>
+
+
+  Your have a new booking from <%=User.find(@booking.user_id).email%>.
+  You will find your booking demand on our website.

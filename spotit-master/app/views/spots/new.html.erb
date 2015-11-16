@@ -1,0 +1,34 @@
+
+<div class="title-new text-center">
+  <h2>Finalize your add</h2>
+  <p>Spotit make you earn money renting your flat to photograph and video makers</p>
+</div>
+
+
+<%= render 'form' %>
+
+
+<% content_for(:after_js) do %>
+  <% javascript_tag do %>
+    <!-- limit the number of pictures -->
+    $(document).on('nested:fieldAdded', function(event){
+      if ($('#pics .fields:visible').length > 2) {
+      console.log('sup 2')
+        $('#pics>p>a').hide();
+      } else {
+        $('#pics>p>a').show();
+      }
+    })
+    $(document).on('nested:fieldRemoved', function(event){
+      $('#pics>p>a').show();
+    })
+
+    $('#spot_address').keyup(function(){
+      var address = $('#spot_address').val()
+    })
+    $('.new-spot').on('submit', function(){
+      $('#spot_address').val() = address
+    })
+
+  <% end %>
+<% end %>
